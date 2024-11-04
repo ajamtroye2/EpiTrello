@@ -8,3 +8,7 @@ body{
 .col {
     flex: 1;
 }
+
+.error{
+    color: red
+}

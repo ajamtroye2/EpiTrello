@@ -11,11 +11,15 @@
 
         </h1>
         <div class="row">
-            <div class="col"><button id="creer">Créer</button></div>
-            <div class="col"><button onclick="alert('Modifié')">Modifier</button></div>
-            <div class="col"><button>Suprimer</button></div>
+            <div class="col"><button id="creer">créer un compte</button></div>
+            <div class="col"><button onclick="alert('Connécté')">Se connecter</button></div>
         </div>
             <h1>Bienvenue les amis<br></h1>
             <h2>Sur EpiTrello</h2>
+        <script>
+            document.getElementById("creer").addEventListener("click", function() {
+                window.location.href = "creation.php";
+            });
+        </script>
     </body>
 </html>

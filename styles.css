@@ -1,4 +1,8 @@
-body.row {
+body{
+    /*a changer plus tard*/
+}
+
+.row {
     display: flex;
 }
 .col {

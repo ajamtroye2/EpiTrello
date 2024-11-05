@@ -50,12 +50,13 @@
                 if ($verif == $password) {
                     echo "Name : " . $pseudo . "<br>";
                     echo "email : " . $email . "<br>";
-                    echo "Mot de passe : " . $password;
                 } else {
                     echo '<p class=error>Not the same password</p>
                         <script>alert("Not the same password")</script>';
-
+                    return;
                 }
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                echo $password . "\n";
                 $query = $db->query("INSERT INTO `users`(`pseudo`, `email`, `password`) VALUES ('".$pseudo."','".$email."','".$password."')");
             }
         ?>

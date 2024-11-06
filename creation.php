@@ -58,9 +58,14 @@
                 $password = password_hash($password, PASSWORD_DEFAULT);
                 echo $password . "\n";
                 $query = $db->query("INSERT INTO `users`(`pseudo`, `email`, `password`) VALUES ('".$pseudo."','".$email."','".$password."')");
-                header("Location: connection.php");
+                echo "
+                <script>
+                    alert('Account created successfully');
+                    window.location.href = 'connection.php';
+                </script>";
                 exit();
             }
         ?>
+    
     </body>
 </html>

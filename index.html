@@ -12,14 +12,13 @@
         </h1>
         <div class="row">
             <div class="col"><button id="creer">créer un compte</button></div>
-            <div class="col"><button onclick="alert('Connecté')">Se connecter</button></div>
+            <div class="col"><button id="connection">Se connecter</button></div>
         </div>
             <h1>Bienvenue les amis<br></h1>
             <h2>Sur EpiTrello</h2>
         <script>
-            document.getElementById("creer").addEventListener("click", function() {
-                window.location.href = "creation.php";
-            });
+            document.getElementById("creer").addEventListener("click", function() {window.location.href = "creation.php";});
+            document.getElementById("connection").addEventListener("click", function() {window.location.href = "connection.php";});
         </script>
     </body>
 </html>

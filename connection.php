@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>EpiTrello</title>
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
         <h1>Connexion au site internet</h1><br>
@@ -13,28 +13,28 @@
             <input type="submit" name="connection" id="connection" value="Connection">
             <p>Errors :</p>
         </form>
-        <style><?php include 'styles.css';?></style>
+        <style><?php include 'css/styles.css';?></style>
 
         <?php
             //afficher utilisateur dans base de donnée
-            include 'database.php';
+            include 'includes/database.php';
             global $db;
 
             if (isset($_POST['connection'])) {
                 $email = $_POST['email'];
                 $password = $_POST['password'];
-                $query = $db->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-                $query->execute([$email, $password]);
-                if ($query->rowCount() > 0) {
-                    echo "<p>Connecté, avec ".$email." et le mot de passe : ".$password."</p>";
-                } else {
-                    $email_check = $db->prepare("SELECT * FROM users WHERE email = ?");
-                    $email_check->execute([$email]);
-                    if ($email_check->rowCount() > 0) {
-                        echo "<p>Mauvais mot de passe</p>";
+                $email_q = $db->prepare("SELECT * FROM users WHERE email = ?");
+                $email_q->execute([$email]);
+            
+                if ($email_q->rowCount() > 0) {
+                    $pass_q = $email_q->fetch(PDO::FETCH_ASSOC);
+                    if (password_verify($password, $pass_q['password'])) {
+                        echo "<p>Connecté, avec ".$email."</p>";
                     } else {
-                        echo "<p>Adresse email incorrecte</p>";
+                        echo "<p>Mauvais mot de passe</p>";
                     }
+                } else {
+                    echo "<p>Adresse email incorrecte</p>";
                 }
             }
         ?>

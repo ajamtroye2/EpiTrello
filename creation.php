@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>EpiTrello</title>
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
         <h1>Création de compte</h1><br>
@@ -12,15 +12,15 @@
             <input type="email" name="email" id="email" placeholder="email : exemple@exemple.com" required><br>
             <input type="password" name="password" id="password" placeholder="Your password" required><br>
             <input type="password" name="password_verification" id="password_verification"
-            placeholder="To verify your password" required><br>
+            placeholder="Confirm your password" required><br>
             <input type="submit" name="creer" id="creer" value="Créer">
             <p>Errors :</p>
         </form>
-        <style><?php include 'styles.css';?></style>
+        <style><?php include 'css/styles.css';?></style>
 
         <?php
             //afficher utilisateur dans base de donnée
-            include 'database.php';
+            include 'includes/database.php';
             global $db;
 
             $query = $db->prepare("SELECT * FROM users WHERE pseudo = :pseudo");

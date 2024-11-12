@@ -11,8 +11,8 @@
 
         </h1>
         <div class="row">
-            <div class="col"><button id="creer">créer un compte</button></div>
-            <div class="col"><button id="connection">Se connecter</button></div>
+            <div class="col"><button id="creer">Sign up - EpiTrello</button></div>
+            <div class="col"><button id="connection">Log in</button></div>
         </div>
             <h1>Bienvenue les amis<br></h1>
             <h2>Sur EpiTrello</h2>

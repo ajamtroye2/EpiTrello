@@ -13,13 +13,11 @@
             <input type="password" name="password" id="password" placeholder="Your password" required><br>
             <input type="password" name="password_verification" id="password_verification"
             placeholder="Confirm your password" required><br>
-            <input type="submit" name="creer" id="creer" value="Créer">
-            <p>Errors :</p>
+            <input type="submit" name="creer" id="creer" value="Create">
         </form>
         <style><?php include 'css/styles.css';?></style>
 
         <?php
-            //afficher utilisateur dans base de donnée
             include 'includes/database.php';
             global $db;
 

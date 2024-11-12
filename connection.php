@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -11,12 +12,14 @@
             <input type="email" name="email" id="email" placeholder="email : exemple@exemple.com" required><br>
             <input type="password" name="password" id="password" placeholder="Your password" required><br>
             <input type="submit" name="connection" id="connection" value="Connection">
-            <p>Errors :</p>
         </form>
+        <div class="col"><button id="creer">Sign up - EpiTrello</button></div>
+        <script>
+            document.getElementById("creer").addEventListener("click", function() {window.location.href = "creation.php";});
+        </script>
         <style><?php include 'css/styles.css';?></style>
 
         <?php
-            //afficher utilisateur dans base de donnée
             include 'includes/database.php';
             global $db;
 
@@ -29,7 +32,11 @@
                 if ($email_q->rowCount() > 0) {
                     $pass_q = $email_q->fetch(PDO::FETCH_ASSOC);
                     if (password_verify($password, $pass_q['password'])) {
-                        echo "<p>Connecté, avec ".$email."</p>";
+                        $_SESSION['email'] = $email;
+                        $_SESSION['pseudo'] = $pass_q['pseudo'];
+                        $_SESSION['id'] = $pass_q['id'];
+                        echo "<script>window.location.href = 'menu.php';</script>";
+                        exit();
                     } else {
                         echo "<p>Mauvais mot de passe</p>";
                     }

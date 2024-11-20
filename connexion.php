@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start(); 
+if (isset($_SESSION['email'])) {
+    header("Location: menu.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -9,15 +14,14 @@
     <body>
         <h1>Connexion au site internet</h1><br>
         <form method="post">
-            <input type="email" name="email" id="email" placeholder="email : exemple@exemple.com" required><br>
-            <input type="password" name="password" id="password" placeholder="Your password" required><br>
-            <input type="submit" name="connection" id="connection" value="Connection">
+            <input type="email" name="email" id="email" placeholder="email : exemple@exemple.com" required>
+            <input type="password" name="password" id="password" placeholder="Your password" required>
+            <input type="submit" name="connection" id="connection" value="">
         </form>
-        <div class="col"><button id="creer">Sign up - EpiTrello</button></div>
+        <div class="create"><button id="create">Sign up - EpiTrello</button></div>
         <script>
-            document.getElementById("creer").addEventListener("click", function() {window.location.href = "creation.php";});
+            document.getElementById("create").addEventListener("click", function() {window.location.href = "creation.php";});
         </script>
-        <style><?php include 'css/styles.css';?></style>
 
         <?php
             include 'includes/database.php';

@@ -1,14 +1,64 @@
-body{
-    /*a changer plus tard*/
-}
-
-.row {
+body {
+    background-color: lightblue;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60vh;
+    text-align: center;
 }
-.col {
-    flex: 1;
+.connection {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+#connection {
+    background: url('../img/login.png') no-repeat center, transparent;
+    background-size: cover;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+#connection:hover {
+    filter: brightness(1.1);
+    transform: scale(1.1);
+}
+h1, h2 {
+    margin: 0;
+    padding: 5px 0;
+}
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+h2 {
+    font-size: 1.5rem;
+    color: #666;
 }
 
-.error{
-    color: red
+.create {
+    margin-top: 20px;
+}
+#create {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+#create:hover {
+    transform: scale(1.05);
+    filter: brightness(0.5);
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 auto;
+    align-items: center;
 }

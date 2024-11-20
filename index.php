@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+    header("Location: menu.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -6,19 +13,13 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
-        <h1>
-
-
-        </h1>
-        <div class="row">
-            <div class="col"><button id="creer">Sign up - EpiTrello</button></div>
-            <div class="col"><button id="connection">Log in</button></div>
-        </div>
-            <h1>Bienvenue les amis<br></h1>
-            <h2>Sur EpiTrello</h2>
+        <div class="connection"><button id="connection"></button></div>
+        <h1>Bienvenue</h1>
+        <h2>Sur EpiTrello</h2>
+        <div class="create"><button id="create">Create an account - EpiTrello</button></div>
         <script>
-            document.getElementById("creer").addEventListener("click", function() {window.location.href = "creation.php";});
-            document.getElementById("connection").addEventListener("click", function() {window.location.href = "connection.php";});
+            document.getElementById("create").addEventListener("click", function() {window.location.href = "creation.php";});
+            document.getElementById("connection").addEventListener("click", function() {window.location.href = "connexion.php";});
         </script>
     </body>
 </html>

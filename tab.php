@@ -28,25 +28,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = htmlspecialchars($_POST['list_name']);
         $query = $db->prepare("INSERT INTO `list` (`id_tab`, `name`) VALUES (?, ?)");
         $query->execute([$id_tab, $name]);
-
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
-
     if (!empty($_POST['delete_list_id'])) {
         $list_id = intval($_POST['delete_list_id']);
         $query = $db->prepare("DELETE FROM `list` WHERE `id` = ?");
         $query->execute([$list_id]);
-
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
-
+    if (!empty($_POST['delete_tab_id'])) {
+        $query = $db->prepare("DELETE FROM `Tab` WHERE `id` = ?");
+        $query->execute([$id_tab]);
+        header("Location: menu.php");
+        exit();
+    }
     if (!empty($_POST['add_carte'])) {
         $list_id = intval($_POST['add_carte']);
-        $query = $db->prepare("INSERT INTO `carte` (`id_list`, `name`) VALUES (?, 'feur')");
-        $query->execute([$list_id]);
-
+        $card_name = htmlspecialchars($_POST['card_name']);
+        $query = $db->prepare("INSERT INTO `carte` (`id_list`, `name`) VALUES (?, ?)");
+        $query->execute([$list_id, $card_name   ]);
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
@@ -76,7 +78,13 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
     ?>
 </head>
 <body>
-    <div class= 'container-list'>
+    <div class='delete-menu' id='delete-menu'>
+        <h4>Voulez-vous suprimer ce tableaux ?</h4>
+        <form method='POST'>
+            <input type='hidden' name='delete_tab_id' value="1">
+            <button type='submit'>Supprimer</button>
+        </form>
+    </div>
         <?php
             if ($id_tab) {
                 $query = $db->query("SELECT * FROM Tab WHERE id = " . $id_tab);
@@ -85,14 +93,13 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                     echo "<div class='header-banner'><h1>
                     <a href='?menu=true' class='menu-btn' style='text-decoration: none;'>
                         <img src='img/EpiTrellologo.png' alt='EpiTrello' draggable='false'>
-                    </a>" . $tabData['name'] . "</h1></div>";
+                    </a>" . $tabData['name'] . "<button class='delete-menu-button' id='delete-menu-button'>...</button></h1></div>";
                 }
-                echo "";
                 $query = $db->prepare("SELECT * FROM list WHERE id_tab = ?");
                 $query->execute([$id_tab]);
                 while ($list = $query->fetch(PDO::FETCH_ASSOC)) {
-                    echo "
-                        <div class='list'>
+                    echo "<div class= 'container-list'>
+                        <div class='list' id='".$list['id']."'>
                             <span>{$list["name"]}</span>";
                         $cartesQuery = $db->prepare("SELECT * FROM carte WHERE id_list = ?");
                         $cartesQuery->execute([$list["id"]]);
@@ -100,10 +107,7 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                             echo "<div class='carte'>" . htmlspecialchars($carte["name"]) . "<button class='modify-carte'>🖉</button></div>";
                     }
                     echo "
-                        <form method='POST'>
-                            <input type='hidden' name='add_carte' value='{$list["id"]}'>
-                            <button class='add-carte-button' type='submit'>Ajouter une carte</button>
-                        </form>
+                        <button class='add-carte-button' id='add-carte-button'>+ Ajouter une carte</button>
                         <button class='actions-menu-button'>...</button>
                         <div class='actions-menu'>
                             <h4>Liste des actions</h4>
@@ -114,49 +118,25 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                         </div>
                     </div>";
                 }
+                echo"<div id='cardInputContainer' class='added'>
+                    <form method='POST'>
+                        <input type='hidden' name='add_carte' value='{$list["id"]}'>
+                        <input type='text' class='name' name='card_name' placeholder='Nom de la carte' required>
+                        <button type='submit' class='create-list-btn'>Ajouter une carte</button>
+                        <button id='close-btn2' class='close-btn'>x</button>
+                    </form>
+                </div>";
                 echo '<button id="showAddListButton">+ Ajouter une liste</button>';
             }
         ?>
-        <div id="listInputContainer">
+        <div id="listInputContainer" class="added">
             <form method="POST">
-                <input type="text" class="list_name" placeholder="Nom de la liste" required>
+                <input type="text" class="name" name="list_name" placeholder="Nom de la liste" required>
                 <button type="submit" class="create-list-btn">Ajouter une liste</button>
                 <button id="close-btn" class="close-btn">x</button>
             </form>
         </div>
     </div>
-
-    <script>
-        const showAddListButton = document.getElementById('showAddListButton');
-        const listInputContainer = document.getElementById('listInputContainer');
-        const closeButton = document.getElementById("close-btn");
-
-        showAddListButton.addEventListener('click', () => {
-            showAddListButton.style.display = "none";
-            listInputContainer.style.display = "block";
-        });
-
-        closeButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            listInputContainer.style.display = "none";
-            showAddListButton.style.display = "block";
-        });
-
-        const actionButtons = document.querySelectorAll('.actions-menu-button');
-        actionButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const menu = button.nextElementSibling;
-                const isVisible = menu.style.display === 'block';
-                document.querySelectorAll('.actions-menu').forEach(menu => menu.style.display = 'none');
-                menu.style.display = isVisible ? 'none' : 'block';
-            });
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!event.target.matches('.actions-menu-button') && !event.target.closest('.actions-menu')) {
-                document.querySelectorAll('.actions-menu').forEach(menu => menu.style.display = 'none');
-            }
-        });
-    </script>
+    <script src="tab.js"></script>
 </body>
 </html>

@@ -14,6 +14,47 @@ h1 {
     margin: 0;
     color: white;
 }
+.delete-menu-button{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -20px;
+    right: 15px;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    font-size: 40px;
+    line-height: 1.4;
+    border: none;
+    padding: 3px;
+    cursor: pointer;
+}
+.delete-menu-button:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.delete-menu {
+    z-index: 2000;
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+}
+.delete-menu h4 {
+    margin: 0 0 10px 0;
+}
+.delete-menu button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 img {
     width: 250px;
     height: 32px;
@@ -79,9 +120,9 @@ img:dragging {
 .actions-menu {
     display: none;
     position: absolute;
-    top: 40px;
-    right: 10px;
-    background-color: #000;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -98,7 +139,6 @@ img:dragging {
     border-radius: 5px;
     cursor: pointer;
 }
-
 #showAddListButton {
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
@@ -115,7 +155,7 @@ img:dragging {
 #showAddListButton:hover {
     filter: grayscale(20%);
 }
-#listInputContainer {
+.added {
     display: none;
     flex-direction: column;
     align-items: flex-start;
@@ -125,7 +165,7 @@ img:dragging {
     border-radius: 5px;
     gap: 10px;
 }
-#listInputContainer.visible{
+.added.visible{
     display: block;
 }
 .create-list-btn {
@@ -143,7 +183,7 @@ img:dragging {
 .create-list-btn:hover {
     background-color: #3383cc;
 }
-#close-btn {
+.close-btn {
     background-color: red;
     color: black;
     border: none;
@@ -157,10 +197,10 @@ img:dragging {
 
     transition: background-color 0.3s ease;
 }
-#close-btn:hover {
+.close-btn:hover {
     background-color: darkred;
 }
-.list_name{
+.name{
     width: 87%;
     padding: 10px;
     border-radius: 4px;
@@ -171,11 +211,11 @@ img:dragging {
     margin-left: 6px;
 }
 
-.list_name:focus {
+.name:focus {
     border: 2px solid lightblue;
     outline: none;
 }
 
-.list_name::placeholder {
+.name::placeholder {
     color: white;
 }

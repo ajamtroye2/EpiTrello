@@ -1,9 +1,6 @@
 const showAddListButton = document.getElementById('showAddListButton');
 const listInputContainer = document.getElementById('listInputContainer');
-const showAddCardButton = document.getElementById('add-carte-button');
-const cardInputContainer = document.getElementById('cardInputContainer');
 const closeButton = document.getElementById("close-btn");
-const closeButton2 = document.getElementById("close-btn2");
 
 showAddListButton.addEventListener('click', () => {
     showAddListButton.style.display = "none";
@@ -14,32 +11,47 @@ closeButton.addEventListener("click", (event) => {
     listInputContainer.style.display = "none";
     showAddListButton.style.display = "block";
 });
-if (showAddCardButton && cardInputContainer) {
-    showAddCardButton.addEventListener("click", (event) => {
-        showAddCardButton.style.display = "none";
+document.querySelectorAll('.add-carte-button').forEach(button => {
+    button.addEventListener('click', (event) => {
+        const listId = button.getAttribute('data-list-id');
+        const cardInputContainer = document.querySelector(`.cardInputContainer[data-list-id='${listId}']`);
+        
+        button.style.display = "none";
         cardInputContainer.style.display = "block";
     });
+});
 
-    closeButton2.addEventListener("click", (event) => {
+document.querySelectorAll('.close-btn2').forEach(button => {
+    button.addEventListener('click', (event) => {
         event.preventDefault();
+        const listId = button.getAttribute('data-list-id');
+        const cardInputContainer = document.querySelector(`.cardInputContainer[data-list-id='${listId}']`);
+        const addCardButton = document.querySelector(`.add-carte-button[data-list-id='${listId}']`);
+
         cardInputContainer.style.display = "none";
-        showAddCardButton.style.display = "block";
+        addCardButton.style.display = "block";
     });
-}
+});
 
 const actionButtons = document.querySelectorAll('.actions-menu-button');
-const menus = document.querySelectorAll('.actions-menu');
+
 actionButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const menu = button.nextElementSibling;
-        menus.forEach(m => m.style.display = 'none');
+    button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const parentList = button.closest('.list');
+        const menu = parentList.querySelector('.actions-menu');
+        document.querySelectorAll('.actions-menu').forEach(m => {
+            if (m !== menu) {
+                m.style.display = 'none';
+            }
+        });
         menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
     });
 });
-document.addEventListener('click', (event) => {
-    if (![...actionButtons].includes(event.target) && !event.target.closest('.actions-menu')) {
-        menus.forEach(menu => menu.style.display = 'none');
-    }
+document.addEventListener('click', () => {
+    document.querySelectorAll('.actions-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
 });
 const deleteMenuButton = document.getElementById('delete-menu-button');
 const deleteMenu = document.getElementById('delete-menu');

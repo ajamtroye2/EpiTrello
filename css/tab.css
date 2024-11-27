@@ -66,9 +66,13 @@ img:active {
 img:dragging {
     cursor: not-allowed;
 }
-.container-list{
+.container-list {
     display: flex;
+    flex-wrap: nowrap;
     gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
 }
 .list {
     margin: 10px;
@@ -78,8 +82,15 @@ img:dragging {
     border: none;
     border-radius: 5px;
     position: relative;
-    width: 300px;
+    min-width: 200px;
     min-height: 100px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 .carte {
     margin: 5px 0;

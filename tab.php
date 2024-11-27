@@ -79,7 +79,9 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
 </head>
 <body>
     <div class='delete-menu' id='delete-menu'>
-        <h4>Voulez-vous suprimer ce tableaux ?</h4>
+        <form method='POST'>
+            <button type='submit'>Modiffier le fond d'écran</button>
+        </form></br>
         <form method='POST'>
             <input type='hidden' name='delete_tab_id' value="1">
             <button type='submit'>Supprimer</button>
@@ -99,7 +101,7 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                 $query->execute([$id_tab]);
                 while ($list = $query->fetch(PDO::FETCH_ASSOC)) {
                     echo "<div class= 'container-list'>
-                        <div class='list' id='".$list['id']."'>
+                        <div class='list' id='list-".$list['id']."'>
                             <span>{$list["name"]}</span>";
                         $cartesQuery = $db->prepare("SELECT * FROM carte WHERE id_list = ?");
                         $cartesQuery->execute([$list["id"]]);
@@ -107,7 +109,15 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                             echo "<div class='carte'>" . htmlspecialchars($carte["name"]) . "<button class='modify-carte'>🖉</button></div>";
                     }
                     echo "
-                        <button class='add-carte-button' id='add-carte-button'>+ Ajouter une carte</button>
+                        <button class='add-carte-button' data-list-id='".$list['id']."'>+ Ajouter une carte</button>
+                        <div class='cardInputContainer added' data-list-id='".$list['id']."'>
+                            <form method='POST'>
+                                <input type='hidden' name='add_carte' value='".$list['id']."'>
+                                <input type='text' class='name' name='card_name' placeholder='Nom de la carte' required>
+                                <button type='submit' class='create-list-btn'>Ajouter une carte</button>
+                                <button class='close-btn close-btn2' data-list-id='".$list['id']."'>x</button>
+                            </form>
+                        </div>                    
                         <button class='actions-menu-button'>...</button>
                         <div class='actions-menu'>
                             <h4>Liste des actions</h4>
@@ -118,14 +128,6 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                         </div>
                     </div>";
                 }
-                echo"<div id='cardInputContainer' class='added'>
-                    <form method='POST'>
-                        <input type='hidden' name='add_carte' value='{$list["id"]}'>
-                        <input type='text' class='name' name='card_name' placeholder='Nom de la carte' required>
-                        <button type='submit' class='create-list-btn'>Ajouter une carte</button>
-                        <button id='close-btn2' class='close-btn'>x</button>
-                    </form>
-                </div>";
                 echo '<button id="showAddListButton">+ Ajouter une liste</button>';
             }
         ?>

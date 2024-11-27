@@ -57,7 +57,6 @@ const deleteMenuButton = document.getElementById('delete-menu-button');
 const deleteMenu = document.getElementById('delete-menu');
 if (deleteMenuButton && deleteMenu) {
     deleteMenuButton.addEventListener('click', () => {
-        console.log('Bouton cliqué');
         const isVisible = deleteMenu.style.display === 'block';
         deleteMenu.style.display = isVisible ? 'none' : 'block';
     });
@@ -66,10 +65,7 @@ if (deleteMenuButton && deleteMenu) {
             event.target !== deleteMenuButton &&
             !deleteMenu.contains(event.target)
         ) {
-            console.log('Clic en dehors du menu');
             deleteMenu.style.display = 'none';
         }
     });
-} else {
-    console.error('Un élément est manquant : vérifiez les IDs');
 }

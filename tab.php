@@ -7,6 +7,7 @@ if (!isset($_SESSION['email'])) {
 $pseudo = $_SESSION['pseudo'];
 $id = $_SESSION['id'];
 $id_tab = $_SESSION['id_tab'];
+$cardId = $_SESSION['cardId'] ?? null;
 
 include 'includes/database.php';
 include 'includes/enum.php';
@@ -17,6 +18,11 @@ if (isset($_GET['menu'])) {
     exit();
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!empty($_POST['card_id'])) {
+        $_SESSION['cardId'] = $_POST['card_id'];
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
     if (!empty($_POST['tables'])) {
         $id_tab = $_POST['tables'] ?? null;
         $_SESSION['id_tab'] = $id_tab;
@@ -64,6 +70,7 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
     <meta charset="UTF-8">
     <title>Menu des Listes</title>
     <link rel="stylesheet" type="text/css" href="css/tab.css">
+    <link rel="stylesheet" type="text/css" href="css/card.css">
     <?php
         $query = $db->query("SELECT background FROM Tab WHERE id = " . $id_tab);
         echo "<style>body{background-color:".match($query->fetch(PDO::FETCH_ASSOC)['background']) {
@@ -85,7 +92,7 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
         <form method='POST'>
             <input type='hidden' name='delete_tab_id' value="1">
             <button type='submit'>Supprimer</button>
-        </form>
+        </form> 
     </div>
         <?php
             if ($id_tab) {
@@ -106,8 +113,12 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
                         $cartesQuery = $db->prepare("SELECT * FROM carte WHERE id_list = ?");
                         $cartesQuery->execute([$list["id"]]);
                         while ($carte = $cartesQuery->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<div class='carte'>" . htmlspecialchars($carte["name"]) . "<button class='modify-carte'>🖉</button></div>";
-                    }
+                            echo"<div class='carte'>"
+                                . htmlspecialchars($carte["name"])
+                                . "<button class='modify-carte'
+                                        data-card-id='".$carte['id']."'>
+                                🖉</button></div>";
+                        }
                     echo "
                         <button class='add-carte-button' data-list-id='".$list['id']."'>+ Ajouter une carte</button>
                         <div class='cardInputContainer added' data-list-id='".$list['id']."'>
@@ -139,6 +150,19 @@ $totallist = $query->fetch(PDO::FETCH_ASSOC)['total'];
             </form>
         </div>
     </div>
+    <div id="overlay" class="<?php echo $cardId ? '' : 'hidden'; ?>">
+        <div class="overlay-content">
+            <h2 id="overlay-title">Modifier la carte : <?= $cardId ?></h2>
+            <form method="POST" id="overlay-form">
+                <input type="hidden" name="card_id" id="card-id" value="<?= htmlspecialchars($_POST['card_id'] ?? ''); ?>">
+                <label for="card-name">Nom de la carte :</label>
+                <input type="text" id="card-name" name="card_name" value="">
+                <button type="submit">Enregistrer</button>
+            </form>
+            <button id="close-overlay">Fermer</button>
+        </div>
+    </div>
     <script src="tab.js"></script>
+    <script src="card.js" defer></script>
 </body>
 </html>

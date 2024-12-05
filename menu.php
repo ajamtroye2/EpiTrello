@@ -7,6 +7,7 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 $pseudo = $_SESSION['pseudo'];
 $id = $_SESSION['id'];
+$_SESSION['cardId'] = null;
 
 include 'includes/database.php';
 global $db;
